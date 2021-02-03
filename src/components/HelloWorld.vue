@@ -1,124 +1,78 @@
+<!--
+ * @Description:
+ * @Author: huxianc
+ * @Date: 2020-11-30 10:05:06
+ * @LastEditors: huxianc
+ * @LastEditTime: 2021-01-29 14:48:05
+-->
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br />
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
-        >vue-cli documentation</a
-      >.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
-          target="_blank"
-          rel="noopener"
-          >babel</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript"
-          target="_blank"
-          rel="noopener"
-          >typescript</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint"
-          target="_blank"
-          rel="noopener"
-          >eslint</a
-        >
-      </li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li>
-        <a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a>
-      </li>
-      <li>
-        <a href="https://forum.vuejs.org" target="_blank" rel="noopener"
-          >Forum</a
-        >
-      </li>
-      <li>
-        <a href="https://chat.vuejs.org" target="_blank" rel="noopener"
-          >Community Chat</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/vuejs" target="_blank" rel="noopener"
-          >Twitter</a
-        >
-      </li>
-      <li>
-        <a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a>
-      </li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li>
-        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
-          >vue-router</a
-        >
-      </li>
-      <li>
-        <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-devtools#vue-devtools"
-          target="_blank"
-          rel="noopener"
-          >vue-devtools</a
-        >
-      </li>
-      <li>
-        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
-          >vue-loader</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-          rel="noopener"
-          >awesome-vue</a
-        >
-      </li>
-    </ul>
-  </div>
+  <ul class="fence-box">
+    <li
+      v-for="(item, index) in list"
+      :key="index"
+      :class="{ active: index === 0 }"
+      @click="handleClick(item, index)"
+    >
+      {{ item.label }}
+    </li>
+  </ul>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+// import { emitEvents } from "../constVariables";
+import { defineEmit } from "vue";
+interface Label {
+  label: string;
+}
+interface EmitObj {
+  [index: string]: string;
+}
 
-export default defineComponent({
-  name: "HelloWorld",
-  props: {
-    msg: String
+type emitEventType = "revoke" | "redraw" | "cancel" | "finish";
+
+const emitEvents = ["revoke", "redraw", "cancel", "finish"];
+
+// const emitObj: EmitObj = {
+//   1: "revoke",
+//   2: "redraw",
+//   3: "cancel",
+//   4: "finish"
+// };
+
+// const emit = defineEmit(Object.keys(emitObj).map(key => emitObj[String(key)]));
+console.log(emitEvents);
+// const REVOKE = "revoke";
+const emit = defineEmit(["revoke", "redraw", "cancel", "finish"]);
+
+// export default defineComponent({
+// name: "FenceBox",
+// emits: Object.keys(emitObj).map(key => emitObj[key]),
+// setup(props, { emit }) {
+const list: Label[] = [
+  {
+    label: "绘制"
+  },
+  {
+    label: "撤销"
+  },
+  {
+    label: "重新绘制"
+  },
+  {
+    label: "取消"
+  },
+  {
+    label: "完成"
   }
-});
+];
+const handleClick = (item: Label, index: number) => {
+  // emit(emitObj[index]);
+  emit("revoke");
+};
+// return {
+//   list,
+//   handleClick
+// };
+// }
+// });
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
